@@ -665,6 +665,10 @@ namespace RationalZone.v4
             HttpWebRequest request = (HttpWebRequest)async_result.AsyncState;
             HttpWebResponse response = (HttpWebResponse)request.EndGetResponse(async_result);
         }
+        public static bool httpIsRequestProduction(HttpRequest request)
+        {
+            return (request != null) && !request.IsLocal && (request.Url.Host.ToLower().IndexOf("staging") < 0);
+        }
     }
 }
 
