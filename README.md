@@ -9,6 +9,7 @@ Rational .NET Utils is a collection of static helper functions used by other Rat
 
 ## Rational .NET Libraries
 - [**dotnet-azure-objects**](http://github.com/RationalMatta/dotnet-azure-objects)
+- [**dotnet-cloud-apis**](http://github.com/RationalMatta/dotnet-cloud-apis)
 
 ## Documentation
 See [**https://github.com/RationalMatta/dotnet-utils/blob/master/documentation/html/functions_func.html**](http://htmlpreview.github.io/?https://github.com/RationalMatta/dotnet-utils/blob/master/documentation/html/functions_func.html) for more

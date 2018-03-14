@@ -1,11 +1,8 @@
 var searchData=
 [
-  ['printattributes_3c_20tkey_2c_20tvalue_20_3e',['printAttributes&lt; TKey, TValue &gt;',['../class_rational_zone_1_1v4_1_1_utils.html#a6d2574d043265a229c3a5bf01657c5df',1,'RationalZone::v4::Utils']]],
-  ['printbase64',['printBase64',['../class_rational_zone_1_1v4_1_1_utils.html#a4a763127f6d25cd4e220cbb7d846b015',1,'RationalZone.v4.Utils.printBase64(byte[] bytes)'],['../class_rational_zone_1_1v4_1_1_utils.html#a3e92a724200dba4bc662e863923bb7a4',1,'RationalZone.v4.Utils.printBase64(string str)']]],
-  ['printcollection_3c_20tvalue_20_3e',['printCollection&lt; TValue &gt;',['../class_rational_zone_1_1v4_1_1_utils.html#a81bc9b9ad409ec82d2cc708c435a0841',1,'RationalZone::v4::Utils']]],
-  ['printdbase64',['printDBase64',['../class_rational_zone_1_1v4_1_1_utils.html#ad4683c7d91b03d31bde658f08a1013f1',1,'RationalZone.v4.Utils.printDBase64(byte[] bytes)'],['../class_rational_zone_1_1v4_1_1_utils.html#ac0a01d1d68b6915ae3222453cabac6a6',1,'RationalZone.v4.Utils.printDBase64(string str)']]],
-  ['printhexstring',['printHexString',['../class_rational_zone_1_1v4_1_1_utils.html#a3eddb3c848c748141fa31b7d8a461a7b',1,'RationalZone::v4::Utils']]],
-  ['printhmacsha1',['printHmacSha1',['../class_rational_zone_1_1v4_1_1_utils.html#ab12bc9781ca95fa739fc8f176de289d0',1,'RationalZone::v4::Utils']]],
-  ['printmd5',['printMd5',['../class_rational_zone_1_1v4_1_1_utils.html#a78a6bf0ec955f71bd81e81d64ffaaaba',1,'RationalZone::v4::Utils']]],
-  ['printsha256',['printSha256',['../class_rational_zone_1_1v4_1_1_utils.html#ad5e2c32b3aedbce7703a4c3f0958e4c4',1,'RationalZone::v4::Utils']]]
+  ['httpcalculatebasicauthentication',['httpCalculateBasicAuthentication',['../class_rational_zone_1_1v4_1_1_utils.html#afea8d59df6e2774b49bde8089b23361a',1,'RationalZone::v4::Utils']]],
+  ['httpgetparameterasstring',['httpGetParameterAsString',['../class_rational_zone_1_1v4_1_1_utils.html#a65ec57fedbbdf6dc195c996938e57ad4',1,'RationalZone::v4::Utils']]],
+  ['httprequest',['httpRequest',['../class_rational_zone_1_1v4_1_1_utils.html#a558d1da8210387e52d8752c149cd11a2',1,'RationalZone.v4.Utils.httpRequest(string url, out string result)'],['../class_rational_zone_1_1v4_1_1_utils.html#a47b02379fd4ef4451b7d68cbe93b9a99',1,'RationalZone.v4.Utils.httpRequest(string url, string method, string body, Dictionary&lt; string, string &gt; parameters, Dictionary&lt; string, string &gt; headers, Dictionary&lt; string, string &gt; response_headers, out string result)']]],
+  ['httprequestasync',['httpRequestAsync',['../class_rational_zone_1_1v4_1_1_utils.html#ac2a62f4bf69a513c4028089946078084',1,'RationalZone.v4.Utils.httpRequestAsync(string url)'],['../class_rational_zone_1_1v4_1_1_utils.html#ad72c8cabd150c5cbfb34d8feb1b1266a',1,'RationalZone.v4.Utils.httpRequestAsync(string url, string method, string body, string[] headers)']]],
+  ['httpurladdparameters',['httpUrlAddParameters',['../class_rational_zone_1_1v4_1_1_utils.html#af3b558d0c0d59e5cd668afedf889e9df',1,'RationalZone.v4.Utils.httpUrlAddParameters(string url, Dictionary&lt; string, string &gt; parameters)'],['../class_rational_zone_1_1v4_1_1_utils.html#ada1d9534b3208c3365c7fcdf9e78f2d1',1,'RationalZone.v4.Utils.httpUrlAddParameters(string url, string parameters)']]]
 ];
