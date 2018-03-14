@@ -2,6 +2,9 @@
 using System.Configuration;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Net;
 using System.Reflection;
@@ -21,18 +24,16 @@ namespace RationalZone.v4
 {
     public class Utils
     {
-        /// <summary>
         /// Returns whether a string is null or empty
-        /// </summary>
-        /// <param name="str">The string</param>
+        ///
+        /// @param string string str The string
         public static bool stringIsEmpty(string str)
         {
             return str == null || str == string.Empty;
         }
-        /// <summary>
         /// Returns a "percent encoded" string of a string
-        /// </summary>
-        /// <param name="str">The string</param>
+        ///
+        /// @param string str The string
         public static string stringPercentEncode(string str)
         {
             if (str != null)
@@ -40,10 +41,9 @@ namespace RationalZone.v4
             else
                 return null;
         }
-        /// <summary>
         /// Returns an url-encoded version of a string
-        /// </summary>
-        /// <param name="str">The string</param>
+        ///
+        /// @param string str The string
         public static string stringUrlEncode(string str)
         {
             if (str != null)
@@ -51,10 +51,9 @@ namespace RationalZone.v4
             else
                 return null;
         }
-        /// <summary>
         /// Returns an url-decoded version of a string
-        /// </summary>
-        /// <param name="str">The string</param>
+        ///
+        /// @param string str The string
         public static string stringUrlDecode(string str)
         {
             if (str != null)
@@ -62,11 +61,20 @@ namespace RationalZone.v4
             else
                 return null;
         }
-        /// <summary>
+        /// Returns a string with utf-codes decoded
+        ///
+        /// @param string str The string
+        public static string stringUtfDecode(string str)
+        {
+            if (str != null)
+                return System.Uri.UnescapeDataString(str);
+            else
+                return null;
+        }
         /// If string matches sanitization regex, returns the original string, null otherwise
-        /// </summary>
-        /// <param name="str">The string to sanitize</param>
-        /// <param name="regex">The regular expression to match</param>
+        ///
+        /// @param string str The string to sanitize
+        /// @param string regex The regular expression to match
         public static string stringSanitize(string str, string regex)
         {
             if (str != null && Regex.IsMatch(str, regex, RegexOptions.IgnoreCase))
@@ -74,34 +82,30 @@ namespace RationalZone.v4
             else
                 return null;
         }
-        /// <summary>
         /// Sanitizes an email string
-        /// </summary>
-        /// <param name="email">Email string</param>
+        ///
+        /// @param string email Email string
         public static string stringSanitizeEmail(string email)
         {
             return stringSanitize(email, @"^[a-zA-Z0-9\-_\+\.]+@[a-zA-Z0-9\-_\+\.]+\.[a-zA-Z0-9\-_\+\.]+$");
         }
-        /// <summary>
         /// Sanitizes a token string
-        /// </summary>
-        /// <param name="token">Token string</param>
+        ///
+        /// @param string token Token string
         public static string stringSanitizeToken(string token)
         {
             return stringSanitize(token, @"^[a-zA-Z0-9\-_\=\+\/\.\%\:\@\s]{1,1024}$");
         }
-        /// <summary>
         /// 
-        /// </summary>
-        /// <param name=""></param>
+        ///
+        /// @param string  
         public static string stringSanitizeName(string name)
         {
             return stringSanitize(name, @"^[a-zA-Z0-9\-_\=\+\/\s]{1,1024}$");
         }
-        /// <summary>
         /// 
-        /// </summary>
-        /// <param name=""></param>
+        ///
+        /// @param string  
         public static string urlSanitize(string url)
         {
             if (url != null && Uri.IsWellFormedUriString(url, UriKind.RelativeOrAbsolute))
@@ -109,21 +113,19 @@ namespace RationalZone.v4
             else
                 return null;
         }
-        /// <summary>
         /// Sanitizes an URL and optionally URL-encodes result
-        /// </summary>
-        /// <param name="url">Url string</param>
-        /// <param name="encode">Whether to URL-encode result</param>
+        ///
+        /// @param string url Url string
+        /// @param string encode Whether to URL-encode result
         public static string urlSanitizeParameter(string url, bool encode)
         {
             return urlSanitizeParameter(url, encode, null);
         }
-        /// <summary>
         /// Sanitizes an URL, appends extra parameters and optionally URL-encodes result 
-        /// </summary>
-        /// <param name="url">Url string</param>
-        /// <param name="encode">Whether to URL-encode result</param>
-        /// <param name="extra_params">Parameter-string to append to URL</param>
+        ///
+        /// @param string url Url string
+        /// @param string encode Whether to URL-encode result
+        /// @param string extra_params Parameter-string to append to URL
         public static string urlSanitizeParameter(string url, bool encode, string extra_params)
         {
             if (url != null && Uri.IsWellFormedUriString(url, UriKind.RelativeOrAbsolute))
@@ -142,26 +144,23 @@ namespace RationalZone.v4
                 return null;
             }
         }
-        /// <summary>
         /// Sanitize an alpha-numeric string
-        /// </summary>
-        /// <param name="str">The string</param>
+        ///
+        /// @param string str The string
         public static string stringSanitizeAlphaNumeric(string str)
         {
             return stringSanitize(str, @"^[a-zA-Z0-9]{1,1024}$");
         }
-        /// <summary>
         /// Sanitize a float string
-        /// </summary>
-        /// <param name="float_str">The string</param>
+        ///
+        /// @param string float_str The string
         public static string stringSanitizeFloat(string float_str)
         {
             return stringSanitize(float_str, @"^[0-9]{1,1024}\.?[0-9]{0,1024}$");
         }
-        /// <summary>
         /// Sanitize a date string
-        /// </summary>
-        /// <param name="date">The string</param>
+        ///
+        /// @param string date The string
         public static DateTime stringSanitizeDate(string date)
         {
             DateTime result = DateTime.Today;
@@ -170,17 +169,15 @@ namespace RationalZone.v4
             else
                 return DateTime.MinValue;
         }
-        /// <summary>
         /// Generate a UNIX timestamp of now
-        /// </summary>
+        ///
         public static string stringUnixTimestamp()
         {
             return (DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds.ToString();
         }
-        /// <summary>
         /// Generate a random string of given length
-        /// </summary>
-        /// <param name="length">The length</param>
+        ///
+        /// @param string length The length
         public static string stringRandomize(int length)
         {
             string result = "";
@@ -189,11 +186,10 @@ namespace RationalZone.v4
             return result.Substring(0, length);
         }
 
-        /// <summary>
         /// Find a JSON string value from a string
-        /// </summary>
-        /// <param name="json_data">The JSON string</param>
-        /// <param name="key">The name of the key</param>
+        ///
+        /// @param string json_data The JSON string
+        /// @param string key The name of the key
         public static string stringFindJsonValue(string json_data, string key)
         {
             if (json_data != null && key != null)
@@ -211,11 +207,10 @@ namespace RationalZone.v4
             return null;
         }
 
-        /// <summary>
         /// Find a JSON number (or boolean) value from a string
-        /// </summary>
-        /// <param name="json_data">The JSON string</param>
-        /// <param name="key">The name of the key</param>
+        ///
+        /// @param string json_data The JSON string
+        /// @param string key The name of the key
         public static string stringFindJsonNumber(string json_data, string key)
         {
             if (json_data != null && key != null)
@@ -235,11 +230,10 @@ namespace RationalZone.v4
             return null;
         }
 
-        /// <summary>
         /// Find an URL parameter value
-        /// </summary>
-        /// <param name="url_data">The URL-string</param>
-        /// <param name="key">The parameter name</param>
+        ///
+        /// @param string url_data The URL-string
+        /// @param string key The parameter name
         public static string stringFindUrlValue(string url_data, string key)
         {
             if (url_data != null && key != null)
@@ -259,10 +253,9 @@ namespace RationalZone.v4
             return null;
         }
 
-        /// <summary>
         /// Trim the query-part from an URL
-        /// </summary>
-        /// <param name="url">The URL</param>
+        ///
+        /// @param string url The URL
         public static string urlTrimQuery(string url)
         {
             if (url != null)
@@ -275,15 +268,14 @@ namespace RationalZone.v4
             }
             return null;
         }
-        /// <summary>
         /// Print a collection of KeyValuePairs using given delimeters and wrappers
-        /// </summary>
-        /// <param name="attributes">The attribute collection</param>
-        /// <param name="value_delimeter">The delimeter between key and value (e.g. "=")</param>
-        /// <param name="attribute_delimeter">The delimeter between KeyValuePairs (e.g. "\n")</param>
-        /// <param name="key_wrapper">The wrapper for keys (e.g. "'")</param>
-        /// <param name="value_wrapper">The wrapper for values (e.g. "'")</param>
-        /// <param name="trim_empty_values">Whether to trim empty values</param>
+        ///
+        /// @param string attributes The attribute collection
+        /// @param string value_delimeter The delimeter between key and value (e.g. "=")
+        /// @param string attribute_delimeter The delimeter between KeyValuePairs (e.g. "\n")
+        /// @param string key_wrapper The wrapper for keys (e.g. "'")
+        /// @param string value_wrapper The wrapper for values (e.g. "'")
+        /// @param string trim_empty_values Whether to trim empty values
         public static string printAttributes<TKey, TValue>(ICollection<KeyValuePair<TKey, TValue>> attributes, string value_delimeter, string attribute_delimeter, string key_wrapper = "", string value_wrapper = "", bool trim_empty_values = false)
         {
             if (attributes != null)
@@ -306,13 +298,12 @@ namespace RationalZone.v4
             }
             return null;
         }
-        /// <summary>
         /// Print a collection of values using given delimeters and wrappers
-        /// </summary>
-        /// <param name="attributes">The attribute collection</param>
-        /// <param name="attribute_delimeter">The delimeter between values (e.g. "\n")</param>
-        /// <param name="value_wrapper">The wrapper for values (e.g. "'")</param>
-        /// <param name="trim_empty_values">Whether to trim empty values</param>
+        ///
+        /// @param string attributes The attribute collection
+        /// @param string attribute_delimeter The delimeter between values (e.g. "\n")
+        /// @param string value_wrapper The wrapper for values (e.g. "'")
+        /// @param string trim_empty_values Whether to trim empty values
         public static string printCollection<TValue>(ICollection<TValue> collection, string attribute_delimeter, string value_wrapper = "", bool trim_empty_values = false)
         {
             if (collection != null)
@@ -335,10 +326,9 @@ namespace RationalZone.v4
             }
             return null;
         }
-        /// <summary>
         /// Print a byte array as a DBase64 string
-        /// </summary>
-        /// <param name="bytes">The byte array</param>
+        ///
+        /// @param string bytes The byte array
         public static string printDBase64(byte[] bytes)
         {
             if (bytes != null)
@@ -346,10 +336,9 @@ namespace RationalZone.v4
             else
                 return null;
         }
-        /// <summary>
         /// Print a string as a DBase64 string
-        /// </summary>
-        /// <param name="str">The string</param>
+        ///
+        /// @param string str The string
         public static string printDBase64(string str)
         {
             if (str != null)
@@ -358,10 +347,9 @@ namespace RationalZone.v4
                 return null;
         }
 
-        /// <summary>
         /// Print a byte array as a Base64 string
-        /// </summary>
-        /// <param name="bytes">The byte array</param>
+        ///
+        /// @param string bytes The byte array
         public static string printBase64(byte[] bytes)
         {
             if (bytes != null)
@@ -369,10 +357,9 @@ namespace RationalZone.v4
             else
                 return null;
         }
-        /// <summary>
         /// Print a string as a Base64 string
-        /// </summary>
-        /// <param name="str">The string</param>
+        ///
+        /// @param string str The string
         public static string printBase64(string str)
         {
             if (str != null)
@@ -381,10 +368,9 @@ namespace RationalZone.v4
                 return null;
         }
 
-        /// <summary>
         /// Print a byte array as a hex string
-        /// </summary>
-        /// <param name="bytes">The byte array</param>
+        ///
+        /// @param string bytes The byte array
         public static string printHexString(byte[] bytes)
         {
             StringBuilder b = new StringBuilder();
@@ -394,10 +380,9 @@ namespace RationalZone.v4
             }
             return b.ToString();
         }
-        /// <summary>
         /// Print an MD5 hash of a string 
-        /// </summary>
-        /// <param name="str">The string</param>
+        ///
+        /// @param string str The string
         public static byte[] printMd5(string str)
         {
             if (str != null)
@@ -407,10 +392,9 @@ namespace RationalZone.v4
             }
             return null;
         }
-        /// <summary>
         /// Print an SHA256 hash of a string 
-        /// </summary>
-        /// <param name="str">The string</param>
+        ///
+        /// @param string str The string
         public static byte[] printSha256(string str)
         {
             if (str != null)
@@ -420,10 +404,9 @@ namespace RationalZone.v4
             }
             return null;
         }
-        /// <summary>
         /// Print an SHA1 HMAC digest of a string 
-        /// </summary>
-        /// <param name="str">The string</param>
+        ///
+        /// @param string str The string
         public static byte[] printHmacSha1(string str, byte[] key)
         {
             if (str != null)
@@ -437,11 +420,10 @@ namespace RationalZone.v4
         }
 
         private const string _AesIV256 = "!YTJ8WUYITDSDFLK";
-        /// <summary>
         /// Encrypt a string using AES256
-        /// </summary>
-        /// <param name="str">The string</param>
-        /// <param name="key">The key</param>
+        ///
+        /// @param string str The string
+        /// @param string key The key
         public static string aes256Encrypt(string str, string key)
         {
             AesCryptoServiceProvider aes = new AesCryptoServiceProvider();
@@ -460,11 +442,10 @@ namespace RationalZone.v4
             }
         }
 
-        /// <summary>
         /// Decrypt a string using AES256
-        /// </summary>
-        /// <param name="str">The string</param>
-        /// <param name="key">The key</param>
+        ///
+        /// @param string str The string
+        /// @param string key The key
         public static string aes256Decrypt(string str, string key)
         {
             AesCryptoServiceProvider aes = new AesCryptoServiceProvider();
@@ -483,22 +464,20 @@ namespace RationalZone.v4
             }
         }
 
-        /// <summary>
         /// Calculate a HTTP basic auth header
-        /// </summary>
-        /// <param name="username">The username</param>
-        /// <param name="password">The password</param>
+        ///
+        /// @param string username The username
+        /// @param string password The password
         public static string httpCalculateBasicAuthentication(string username, string password)
         {
             string authInfo = username + ":" + password;
             return "Basic " + Convert.ToBase64String(Encoding.Default.GetBytes(authInfo));
         }
-        /// <summary>
         /// Print a http request parameter as key-value-pair using given delimeter
-        /// </summary>
-        /// <param name="request">The HttpRequest-object</param>
-        /// <param name="param">The name of the parameter</param>
-        /// <param name="delimerator">The delimerator</param>
+        ///
+        /// @param string request The HttpRequest-object
+        /// @param string param The name of the parameter
+        /// @param string delimerator The delimerator
         public static string httpGetParameterAsString(HttpRequest request, string param, string delimerator)
         {
             string value = request[param];
@@ -508,21 +487,19 @@ namespace RationalZone.v4
                 return "";
         }
 
-        /// <summary>
         /// Append a dictionary of parameters to an URL
-        /// </summary>
-        /// <param name="url">The URL</param>
-        /// <param name="parameters">The dictionary of string parameters</param>
+        ///
+        /// @param string url The URL
+        /// @param string parameters The dictionary of string parameters
         public static string httpUrlAddParameters(string url, Dictionary<string, string> parameters)
         {
             return httpUrlAddParameters(url, printAttributes(parameters, "=", "&"));
         }
 
-        /// <summary>
         /// Append a parameter-string to an URL
-        /// </summary>
-        /// <param name="url">The URL</param>
-        /// <param name="parameters">The parameter-string</param>
+        ///
+        /// @param string url The URL
+        /// @param string parameters The parameter-string
         public static string httpUrlAddParameters(string url, string parameters)
         {
             if (!stringIsEmpty(parameters))
@@ -542,11 +519,10 @@ namespace RationalZone.v4
             return url;
         }
 
-        /// <summary>
         /// Execute a http request and get the result and status code as response
-        /// </summary>
-        /// <param name="url">The URL</param>
-        /// <param name="result">The out-parameter to store the result in</param>
+        ///
+        /// @param string url The URL
+        /// @param string result The out-parameter to store the result in
         public static int httpRequest(string url, out string result)
         {
             return httpRequest(url, null, null, null, null, null, out result);
@@ -557,16 +533,15 @@ namespace RationalZone.v4
                 foreach (string key in response.Headers)
                     headers.Add(key, response.Headers[key]);
         }
-        /// <summary>
         /// Execute a http request using given parameters and get the response headers, result and status code as response
-        /// </summary>
-        /// <param name="url">The URL</param>
-        /// <param name="method">The HTTP method name</param>
-        /// <param name="body">The HTTP body content</param>
-        /// <param name="parameters">The dictionary of request parameters</param>
-        /// <param name="headers">The dictionary of request headers</param>
-        /// <param name="response_headers">The dictionary of receive response headers</param>
-        /// <param name="result">The out-parameter to store the result in</param>
+        ///
+        /// @param string url The URL
+        /// @param string method The HTTP method name
+        /// @param string body The HTTP body content
+        /// @param string parameters The dictionary of request parameters
+        /// @param string headers The dictionary of request headers
+        /// @param string response_headers The dictionary of receive response headers
+        /// @param string result The out-parameter to store the result in
         public static int httpRequest(string url, string method, string body, Dictionary<string, string> parameters, Dictionary<string, string> headers, Dictionary<string, string> response_headers, out string result)
         {
             HttpWebRequest req = (HttpWebRequest)WebRequest.Create(httpUrlAddParameters(url, parameters));
@@ -575,19 +550,28 @@ namespace RationalZone.v4
             {
                 if (headers != null)
                     foreach (KeyValuePair<string, string> kvp in headers)
-                        if (kvp.Key == "Accept")
-                            req.Accept = kvp.Value;
-                        else
-                            req.Headers.Add(kvp.Key, kvp.Value);
+                        switch (kvp.Key.ToLower())
+                        {
+                            case "accept":
+                                req.Accept = kvp.Value;
+                                break;
+                            case "content-type":
+                                req.ContentType = kvp.Value;
+                                break;
+                            default:
+                                req.Headers.Add(kvp.Key, kvp.Value);
+                                break;
+                        }
 
                 if (method != null)
                     req.Method = method;
 
+                req.ContentLength = 0;
+                if (req.Method == "POST" && req.ContentType == null)
+                    req.ContentType = "application/x-www-form-urlencoded";
+
                 if (body != null)
                 {
-                    if (req.Method == "POST")
-                        req.ContentType = "application/x-www-form-urlencoded; charset=UTF-8";
-
                     byte[] request_data = Encoding.UTF8.GetBytes(body);
                     req.ContentLength = request_data.Length;
                     Stream output_data = req.GetRequestStream();
@@ -614,23 +598,21 @@ namespace RationalZone.v4
             }
             return 0;
         }
-        /// <summary>
         /// Execute a http request using given parameters asynchronously without waiting for the response
-        /// </summary>
-        /// <param name="url">The URL</param>
+        ///
+        /// @param string url The URL
         public static bool httpRequestAsync(string url)
         {
             return httpRequestAsync(url, null, null, null);
         }
 
-        /// <summary>
-        /// <param name="url">The URL</param>
-        /// <param name="method">The HTTP method name</param>
-        /// <param name="body">The HTTP body content</param>
-        /// <param name="parameters">The dictionary of request parameters</param>
-        /// <param name="headers">The dictionary of request headers</param>
-        /// </summary>
-        /// <param name=""></param>
+        /// @param string url The URL
+        /// @param string method The HTTP method name
+        /// @param string body The HTTP body content
+        /// @param string parameters The dictionary of request parameters
+        /// @param string headers The dictionary of request headers
+        ///
+        /// @param string  
         public static bool httpRequestAsync(string url, string method, string body, string[] headers)
         {
             try
@@ -668,6 +650,83 @@ namespace RationalZone.v4
         public static bool httpIsRequestProduction(HttpRequest request)
         {
             return (request != null) && !request.IsLocal && (request.Url.Host.ToLower().IndexOf("staging") < 0);
+        }
+        /// Get the file size in bytes, -1 for invalid
+        ///
+        /// @param string path The path to file
+        public static long fileSize(string path)
+        {
+            try
+            {
+                FileInfo fi = new FileInfo(path);
+                return fi.Length;
+            }
+            catch (Exception e)
+            {
+                return -1;
+            }
+        }
+
+        /// Resize an image file as ratio of the current size
+        ///
+        /// @param string path The path to the input file
+        /// @param string resized_path The path to the resize file
+        /// @param string resize_ratio The resize ratio with respect to file size
+        public static void fileImageResize(string path, string resized_path, double resize_ratio)
+        {
+            if (resize_ratio > 0 && resize_ratio <= 1) {
+                Bitmap image = new Bitmap(path);
+                double dimension_ratio = Math.Sqrt(1 / resize_ratio);
+                fileImageResize(image, resized_path, (int)Math.Floor(image.Width / dimension_ratio), (int)Math.Floor(image.Height / dimension_ratio));
+            }
+        }
+        /// Resize an image file to give new dimensions
+        ///
+        /// @param string path The path to the input file
+        /// @param string resized_path The path to the resize file
+        /// @param string width The new width
+        /// @param string height The new height
+        public static void fileImageResize(string path, string resized_path, int width, int height)
+        {
+            fileImageResize(new Bitmap(path), resized_path, width, height);
+        }
+        /// Resize an image file to give new dimensions
+        ///
+        /// @param string path The path to the input file
+        /// @param string resized_path The path to the resize file
+        /// @param string width The new width
+        /// @param string height The new height
+        public static void fileImageResize(Bitmap image, string resized_path, int width, int height)
+        {
+            Bitmap resized_bitmap = new Bitmap(width, height, PixelFormat.Format32bppArgb);
+            using (var graphics = Graphics.FromImage(resized_bitmap))
+            {
+                graphics.Clear(Color.Transparent);
+                graphics.CompositingQuality = CompositingQuality.HighSpeed;
+                graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                graphics.CompositingMode = CompositingMode.SourceCopy;
+                graphics.DrawImage(image, 0, 0, width, height);
+            }
+            string extension = resized_path.Substring(resized_path.Length - 4, 4).ToLower();
+            ImageFormat image_format = ImageFormat.Jpeg;
+            if (extension == ".png")
+                image_format = ImageFormat.Png;
+            resized_bitmap.Save(resized_path, ImageFormat.Jpeg);
+        }
+        /// Read the contents of a file as Base64 string
+        /// 
+        /// @param string string path The path to the input file
+        public static string fileReadBase64(string path)
+        {
+            try
+            {
+                byte[] AsBytes = File.ReadAllBytes(path);
+                return Convert.ToBase64String(AsBytes);
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
         }
     }
 }
