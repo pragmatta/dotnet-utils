@@ -8,8 +8,8 @@ Rational .NET Utils is a collection of static helper functions used by other Rat
 - String sanitization and manipulation helpers
 
 ## Rational .NET Libraries
-- [**dotnet-azure-objects**](http://github.com/RationalMatta/dotnet-azure-objects)
-- [**dotnet-cloud-apis**](http://github.com/RationalMatta/dotnet-cloud-apis)
+- [**dotnet-azure-objects**](https://github.com/pragmatta/dotnet-azure-objects)
+- [**dotnet-cloud-apis**](https://github.com/pragmatta/dotnet-cloud-apis)
 
 ## Documentation
-See [**https://github.com/RationalMatta/dotnet-utils/blob/master/documentation/html/functions_func.html**](http://htmlpreview.github.io/?https://github.com/RationalMatta/dotnet-utils/blob/master/documentation/html/functions_func.html) for more
+See [**https://github.com/pragmatta/dotnet-utils/blob/master/documentation/html/functions_func.html**](http://htmlpreview.github.io/?https://github.com/pragmatta/dotnet-utils/blob/master/documentation/html/functions_func.html) for more
